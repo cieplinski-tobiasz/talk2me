@@ -1,4 +1,4 @@
-function makeBin(from, to) {
+function createBin(from, to) {
     const set = new Set();
 
     function fits(user) {
@@ -39,8 +39,8 @@ function makeBin(from, to) {
     }
 }
 
-function makeMatcher(dependencies) {
-    const bins = [makeBin(-1, -.5), makeBin(-.5, 0), makeBin(0, .5), makeBin(.5, 1)];
+function createMatcher(dependencies) {
+    const bins = [createBin(-1, -.5), createBin(-.5, 0), createBin(0, .5), createBin(.5, 1)];
     const userIdToBin = new Map();
     const userIdToUser = new Map();
 
@@ -104,4 +104,4 @@ function makeMatcher(dependencies) {
     }
 }
 
-module.exports = {makeMatcher};
+module.exports = {createMatcher};

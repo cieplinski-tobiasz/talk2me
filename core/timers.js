@@ -15,7 +15,7 @@ const prefixes = require('./constants').Prefixes;
  *
  * @returns {Object} Callbacks intended to use with setTimeout()
  */
-function makeTimers(dependencies) {
+function createTimers(dependencies) {
 
     /**
      * Checks if both users confirmed the matching
@@ -249,4 +249,4 @@ function makeTimers(dependencies) {
     }
 }
 
-module.exports = {makeTimers};
+module.exports = {createTimers};

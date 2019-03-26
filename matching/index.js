@@ -17,7 +17,7 @@ function onFail(socket) {
 io.on(events.CONNECT, socket => {
     const success = onMatch(socket);
     const failure = onFail(socket);
-    const matcher = matching.makeMatcher({success, failure, starvationTimeout: config.timeouts.starvation});
+    const matcher = matching.createMatcher({success, failure, starvationTimeout: config.timeouts.starvation});
 
     socket.on(events.MATCH, payload => {
         const user = JSON.parse(payload);

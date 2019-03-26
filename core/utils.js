@@ -9,7 +9,7 @@ const events = require('./constants').Events;
  *
  * @returns {function(socket=): *}
  */
-function makeSocketHook(event, handler, toJson=true) {
+function createSocketHook(event, handler, toJson = true) {
     return socket => socket.on(event, payload => {
         const data = toJson ? JSON.parse(payload) : payload;
         handler(socket, data)
@@ -67,7 +67,7 @@ function safeEmit(event, payload, ...sockets) {
  * @param separator {string!} - Separator of the arguments
  * @returns {function(...[*]): string}
  */
-function makeKey(separator) {
+function createKey(separator) {
 
     /**
      * Joins the given arguments with separator from the closure
@@ -83,8 +83,8 @@ function makeKey(separator) {
 }
 
 module.exports = {
-    makeKey,
-    makeSocketHook,
+    createKey,
+    createSocketHook,
     safeDisconnect,
     safeEmit,
     safeError,

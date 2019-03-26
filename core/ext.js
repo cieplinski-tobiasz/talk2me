@@ -9,15 +9,15 @@ const events = require('./constants').Events;
  *
  * @param {string!} dependencies.url - URL of the matching microservice
  * @param {Map<string, socket>} dependencies.sockets
- * @param dependencies.matchHook
- * @param dependencies.dequeueHook
+ * @param dependencies.attachMatchHook
+ * @param dependencies.attachDequeueHook
  * @returns {{enqueue: enqueue, dequeue: dequeue}}
  */
 function matchService(dependencies) {
     const socket = io(dependencies.url);
 
-    dependencies.matchHook(socket);
-    dependencies.dequeueHook(socket);
+    dependencies.attachMatchHook(socket);
+    dependencies.attachDequeueHook(socket);
 
     /**
      * Enqueues the user with given socket id to the matching service

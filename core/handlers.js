@@ -17,7 +17,7 @@ const prefixes = require('./constants').Prefixes;
  *
  * @returns {function} `match` event handler
  */
-function makeMatchHandlers(dependencies) {
+function createMatchHandlers(dependencies) {
 
     /**
      * Emits `match` event to users and starts the confirm timer
@@ -85,7 +85,7 @@ function makeMatchHandlers(dependencies) {
  *
  * @returns {Object} - Handlers for events emitted by client
  */
-function makeClientEventsHandlers(dependencies) {
+function createClientEventsHandlers(dependencies) {
 
     /**
      * Stores the answer for given talk ID and socket ID
@@ -97,16 +97,13 @@ function makeClientEventsHandlers(dependencies) {
      * @param {string} data.match_id - UUID of the matching
      */
     async function onAnswer(socket, data) {
-        const answers = data.answers;
         const talkId = data.match_id;
-
-        const flatMapped = answers
+        const answers = data.answers
             .map(obj => [obj.id, obj.answer])
             .reduce((x, y) => x.concat(y), []);
-
         const key = dependencies.key(prefixes.ANSWERS, talkId, socket.id);
 
-        await dependencies.db.hmset(key, flatMapped);
+        await dependencies.db.hmset(key, answers);
     }
 
     /**
@@ -173,16 +170,13 @@ function makeClientEventsHandlers(dependencies) {
      * @param {number} data.score - Scoring of the questions in [-1, 1] range
      */
     async function onFind(socket, data) {
-        const questions = data.questions;
         const score = data.score;
-
-        const flatMapped = questions
+        const questions = data.questions
             .map(obj => [`${obj.id}`, obj.question])
             .reduce((x, y) => x.concat(y), []);
-
         const questionsKey = dependencies.key(prefixes.QUESTIONS, socket.id);
 
-        await dependencies.db.hmset(questionsKey, flatMapped);
+        await dependencies.db.hmset(questionsKey, questions);
 
         if (dependencies.sockets.get(socket.id)) {
             dependencies.matchService.enqueue(socket.id, score);
@@ -222,6 +216,6 @@ function makeClientEventsHandlers(dependencies) {
 }
 
 module.exports = {
-    makeClientEventsHandlers,
-    makeMatchHandlers,
+    createClientEventsHandlers,
+    createMatchHandlers,
 };
